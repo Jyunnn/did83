@@ -1,22 +1,16 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [count, setCount] = useState(0)
+  const [todo, setTodo] = useState('請輸入文字')
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>{ count }</p>
+        <button onClick={()=>{setCount(count+1)}}> Add </button>
+        <p>{ todo }</p>
+        <input placeholder={todo} onChange={(e)=>setTodo(e.target.value)}></input>
       </header>
     </div>
   );
