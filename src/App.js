@@ -1,17 +1,71 @@
 import { useState } from 'react';
+import search from './search.svg';
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [todo, setTodo] = useState('請輸入文字')
+  const [count, setCount] = useState(0);
+  const [todo, setTodo] = useState('');
+  const [todolist, setTodolist] = useState([]);
+
+  const addTodo = (e) => {
+    e.preventDefault();
+    if(todo === ''){
+      return
+    }
+    setTodolist ((old)=>{
+      return [...old, {id: count, todo: todo}]
+    })
+    setTodo('');
+    setCount(count+1);
+  }
+
+  const delTodo = (e) => {
+    let list = [...todolist]
+    let arr = list.find((a)=>{
+      return a.id == e.currentTarget.value
+    })
+
+    console.log(list.indexOf(arr));
+    list.splice(list.indexOf(arr) , 1)
+    setTodolist(() => {
+      return [...list]
+    })
+  }
+
+  const renderTodolist = () => {
+    if (todolist.length === 0){
+      return (
+          <p> 空白 </p>
+      )
+    } else {
+        return (
+          todolist.map((v)=>{ 
+            return (
+              <div key={v.id}>
+                <p> 序列 : { v.id } </p>
+                <p> { v.todo } </p>
+                <button onClick={delTodo} value={ v.id }> DEL </button>
+              </div>
+            ) 
+          })
+        )
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <p>{ count }</p>
-        <button onClick={()=>{setCount(count+1)}}> Add </button>
-        <p>{ todo }</p>
-        <input placeholder={todo} onChange={(e)=>setTodo(e.target.value)}></input>
-      </header>
+
+        <form className="todo-form">
+          <input className="todo-input" type="text" placeholder="請輸入文字" value={todo} onChange={(e)=>{setTodo(e.target.value)}}></input>
+          <button className="todo-input-btn" onClick={ addTodo }>
+            <img src={search} alt="search-icon"/>
+          </button>
+        </form>
+
+        <div className="todolist-area">
+          {  renderTodolist() }
+        </div>
+
     </div>
   );
 }

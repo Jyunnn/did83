@@ -1,21 +1,5 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,15 +8,36 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.todolist-area {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.todo-form {
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.todo-input {
+  padding: 6px;
+  border: none;
+  border-radius: 5px 0 0 5px;
+}
+
+.todo-input:focus {
+  border: none;
+}
+
+.todo-input-btn {
+  width: 48px;
+  height: 48px;
+  background: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 8px;
+}
+
+.todo-input-btn img {
+  width: 100%;
 }
