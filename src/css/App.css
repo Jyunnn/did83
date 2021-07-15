@@ -1,0 +1,43 @@
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.todolist-area {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.todo-form {
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.todo-input {
+  padding: 6px;
+  border: none;
+  border-radius: 5px 0 0 5px;
+}
+
+.todo-input:focus {
+  border: none;
+}
+
+.todo-input-btn {
+  width: 48px;
+  height: 48px;
+  background: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 8px;
+}
+
+.todo-input-btn img {
+  width: 100%;
+}
