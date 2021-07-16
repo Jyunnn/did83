@@ -41,7 +41,7 @@ function App() {
         return (
           todolist.map((v)=>{ 
             return (
-              <div key={v.id}>
+              <div className="todo" key={v.id}>
                 <p> 序列 : { v.id } </p>
                 <p> { v.todo } </p>
                 <button onClick={delTodo} value={ v.id }> DEL </button>
@@ -56,8 +56,8 @@ function App() {
     <div className="App">
 
         <form className="todo-form">
-          <input className="todo-input" type="text" placeholder="請輸入文字" value={todo} onChange={(e)=>{setTodo(e.target.value)}}></input>
-          <button className="todo-input-btn" onClick={ addTodo }>
+          <input type="text" placeholder="請輸入文字" value={todo} onChange={(e)=>{setTodo(e.target.value)}}></input>
+          <button onClick={ addTodo }>
             <img src={search} alt="search-icon"/>
           </button>
         </form>
