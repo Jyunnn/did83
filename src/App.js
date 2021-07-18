@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import search from './search.svg';
 import './css/App.css';
 
@@ -51,6 +51,10 @@ function App() {
         )
     }
   }
+
+  useEffect(() => {
+    localStorage.setItem('todolist', JSON.stringify(todolist));
+  })
 
   return (
     <div className="App">
