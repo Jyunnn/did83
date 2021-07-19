@@ -3,9 +3,11 @@ import search from './search.svg';
 import './css/App.css';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const localdata = JSON.parse(localStorage.getItem('todolist'));
+
+  const [count, setCount] = useState( Date.now());
   const [todo, setTodo] = useState('');
-  const [todolist, setTodolist] = useState([]);
+  const [todolist, setTodolist] = useState( localdata || []);
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -16,7 +18,7 @@ function App() {
       return [...old, {id: count, todo: todo}]
     })
     setTodo('');
-    setCount(count+1);
+    setCount(Date.now());
   }
 
   const delTodo = (e) => {
@@ -33,23 +35,19 @@ function App() {
   }
 
   const renderTodolist = () => {
-    if (todolist.length === 0){
+    if (todolist.length !== 0){
       return (
-          <p> 空白 </p>
+        todolist.map((v)=>{ 
+          return (
+            <div className="todo" key={v.id}>
+              <p> 序列 : { v.id } </p>
+              <p> { v.todo } </p>
+              <button onClick={delTodo} value={ v.id }> DEL </button>
+            </div>
+          ) 
+        })
       )
-    } else {
-        return (
-          todolist.map((v)=>{ 
-            return (
-              <div className="todo" key={v.id}>
-                <p> 序列 : { v.id } </p>
-                <p> { v.todo } </p>
-                <button onClick={delTodo} value={ v.id }> DEL </button>
-              </div>
-            ) 
-          })
-        )
-    }
+    } 
   }
 
   useEffect(() => {
