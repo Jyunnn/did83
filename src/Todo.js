@@ -1,13 +1,22 @@
 import { useState, useEffect } from 'react';
 import search from './search.svg';
-import './css/App.css';
+import TodoBox from './components/TodoBox';
+import './css/Todo.css';
 
-function App() {
-  const localdata = JSON.parse(localStorage.getItem('todolist'));
+function Todo() {
+  const localData = JSON.parse(localStorage.getItem('todolist'));
+  const localId = JSON.parse(localStorage.getItem('id'));
 
-  const [count, setCount] = useState( Date.now());
+  const [id, setId] = useState( localId + 1 || 0);
+  const [hash , setHash] = useState( Date.now());
   const [todo, setTodo] = useState('');
-  const [todolist, setTodolist] = useState( localdata || []);
+  const [todolist, setTodolist] = useState( localData || []);
+
+
+  const saveId = () => {
+    setId(id+1)
+    localStorage.setItem('id', id)
+  }
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -15,16 +24,17 @@ function App() {
       return
     }
     setTodolist ((old)=>{
-      return [...old, {id: count, todo: todo}]
+      return [...old, {id: id ,hash: hash, todo: todo}]
     })
     setTodo('');
-    setCount(Date.now());
+    saveId()
+    setHash(Date.now());
   }
 
   const delTodo = (e) => {
     let list = [...todolist]
-    let arr = list.find((a)=>{
-      return a.id == e.currentTarget.value
+    let arr = list.find((v)=>{
+      return v.hash == e.currentTarget.value
     })
 
     console.log(list.indexOf(arr));
@@ -39,11 +49,7 @@ function App() {
       return (
         todolist.map((v)=>{ 
           return (
-            <div className="todo" key={v.id}>
-              <p> 序列 : { v.id } </p>
-              <p> { v.todo } </p>
-              <button onClick={delTodo} value={ v.id }> DEL </button>
-            </div>
+              <TodoBox delTodo={delTodo} todo={v} todolist={todolist} />
           ) 
         })
       )
@@ -72,4 +78,4 @@ function App() {
   );
 }
 
-export default App;
+export default Todo;
