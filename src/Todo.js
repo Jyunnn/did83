@@ -24,11 +24,20 @@ function Todo() {
       return
     }
     setTodolist ((old)=>{
-      return [...old, {id: id ,hash: hash, todo: todo}]
+      return [...old, {
+        id: id,
+        hash: hash,
+        finish: false,
+        todo: todo,
+      }]
     })
     setTodo('');
     saveId()
     setHash(Date.now());
+  }
+
+  const finishTodo = () => {
+
   }
 
   const delTodo = (e) => {
@@ -49,7 +58,7 @@ function Todo() {
       return (
         todolist.map((v)=>{ 
           return (
-              <TodoBox delTodo={delTodo} todo={v} todolist={todolist} />
+              <TodoBox key={v.hash} delTodo={delTodo} todo={v} todolist={todolist} />
           ) 
         })
       )
