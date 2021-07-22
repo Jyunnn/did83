@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import search from './search.svg';
-import './css/App.css';
+import TodoBox from './components/TodoBox'
+import './css/todo.css';
 
-function App() {
-  const [count, setCount] = useState(0);
+function Todo() {
+  const [id, setId] = useState(0);
+  const [isfinish, setIsfinish] = useState(false);
   const [todo, setTodo] = useState('');
+  const [hash , setHash] = useState(Date.now());
   const [todolist, setTodolist] = useState([]);
+  const [finishlist, setFinishlist] = useState([]);
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -13,10 +17,11 @@ function App() {
       return
     }
     setTodolist ((old)=>{
-      return [...old, {id: count, todo: todo}]
+      return [...old, {id: id, hash: hash, finish: isfinish, todo: todo}]
     })
     setTodo('');
-    setCount(count+1);
+    setHash(Date.now())
+    setId(id+1);
   }
 
   const delTodo = (e) => {
@@ -25,27 +30,42 @@ function App() {
       return a.id == e.currentTarget.value
     })
 
-    console.log(list.indexOf(arr));
     list.splice(list.indexOf(arr) , 1)
     setTodolist(() => {
       return [...list]
     })
   }
 
-  const renderTodolist = () => {
+  const handleFinishChange = (hash) => {
+    let list = [...todolist];
+    let finishList = [...finishlist];
+
+    let arr = list.find((v)=>{
+      return v.hash === hash
+    })
+
+    let index = list.indexOf(arr);
+    list[index].finish = !list[index].finish
+
+
+    setTodolist (()=>{
+      return [...list]
+    })
+    setFinishlist(()=>{
+      return [...finishList]
+    })
+  }
+
+  const renderTodolist = (array) => {
     if (todolist.length === 0){
       return (
           <p> 空白 </p>
       )
     } else {
         return (
-          todolist.map((v)=>{ 
+          array.map((v)=>{ 
             return (
-              <div className="todo" key={v.id}>
-                <p> 序列 : { v.id } </p>
-                <p> { v.todo } </p>
-                <button onClick={delTodo} value={ v.id }> DEL </button>
-              </div>
+              <TodoBox key={v.hash} delTodo={delTodo}  finishChange={handleFinishChange} {...v}/>
             ) 
           })
         )
@@ -63,11 +83,15 @@ function App() {
         </form>
 
         <div className="todolist-area">
-          {  renderTodolist() }
+          {  renderTodolist(todolist) }
         </div>
+        <div className="todolist-area">
+          {  renderTodolist(finishlist) }
+        </div>
+
 
     </div>
   );
 }
 
-export default App;
+export default Todo;
